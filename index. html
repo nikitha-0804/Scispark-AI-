@@ -1,1 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<meta name="theme-color" content="#071426">
+
+<title>SciSpark AI | Explore Beyond</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: #071426;
+}
+
+header {
+  text-align: center;
+  padding: 30px 15px;
+  background: linear-gradient(135deg, #102c50, #174d68);
+  border-bottom: 2px solid #38e8c6;
+}
+
+header h1 {
+  font-size: 36px;
+  color: #38e8c6;
+  margin: 8px;
+  text-shadow: 0 0 15px #38e8c6;
+}
+
+header p {
+  color: #d4e9ff;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: #0c1e33;
+}
+
+nav a {
+  color: #38e8c6;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px;
+}
+
+main {
+  max-width: 850px;
+  margin: auto;
+  padding: 16px;
+}
+
+.hero {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.hero h2 {
+  font-size: 29px;
+}
+
+.hero span {
+  color: #38e8c6;
+}
+
+.card {
+  background: linear-gradient(145deg, #132c46, #0d2037);
+  padding: 22px;
+  margin: 20px 0;
+  border: 1px solid #254866;
+  border-radius: 18px;
+  box-shadow: 0 0 18px #0b3040;
+  animation: appear 0.7s ease;
+}
+
+.card h2 {
+  color: #38e8c6;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  margin: 10px 0;
+  border: 1px solid #38e8c6;
+  border-radius: 10px;
+  background: #071426;
+  color: white;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 16px;
+  margin: 5px 3px;
+  border: none;
+  border-radius: 10px;
+  background: #38e8c6;
+  color: #071426;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+button:hover {
+  box-shadow: 0 0 15px #38e8c6;
+}
+
+.answer {
+  line-height: 1.7;
+  color: #e2f5ff;
+  overflow-wrap: anywhere;
+}
+
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #203d59;
+  color: white;
+  border: 1px solid #38e8c6;
+}
+
+#points {
+  color: #ffd76a;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #b8c7d9;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 29px;
+  }
+
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧬 SciSpark AI</h1>
+  <p>Explore Beyond. Discover Everything.</p>
+  <p>🚀 Your universe of science awaits!</p>
+</header>
+
+<nav>
+  <a href="#tutor">🤖 Tutor</a>
+  <a href="#quiz">🏆 Quiz</a>
+  <a href="#explorer">🌌 Explorer</a>
+</nav>
+
+<main>
+
+<section class="hero">
+  <h2>Welcome to <span>SciSpark AI!</span></h2>
+  <p>Learn science, earn points and unlock your curiosity.</p>
+  <p>🏆 Your points: <span id="points">0</span></p>
+  <p id="level">🌱 Level: Science Explorer</p>
+</section>
+
+<section class="card" id="tutor">
+  <h2>🤖 AI Science Tutor</h2>
+  <p>Enter a topic to get a personalized study guide.</p>
+
+  <input id="question"
+    placeholder="Example: How do black holes work?">
+
+  <button onclick="askScience()">✨ Explain This</button>
+
+  <div id="answer" class="answer" aria-live="polite"></div>
+</section>
+
+<section class="card" id="quiz">
+  <h2>🏆 Science Genius Challenge</h2>
+
+  <p id="questionNumber">Question 1 of 5</p>
+  <h3 id="quizQuestion"></h3>
+
+  <div id="options"></div>
+
+  <p id="quizFeedback" class="answer" aria-live="polite"></p>
+  <p id="score"></p>
+
+  <button id="nextButton" onclick="nextQuestion()" hidden>
+    Next Question ➡️
+  </button>
+
+  <button id="restartButton" onclick="restartQuiz()" hidden>
+    🔄 Play Again
+  </button>
+</section>
+
+<section class="card" id="explorer">
+  <h2>🌌 Science Explorer</h2>
+  <p>Discover a fascinating science fact!</p>
+
+  <button onclick="showFact()">🔭 Discover a Fact</button>
+
+  <p id="fact" class="answer" aria-live="polite"></p>
+</section>
+
+<section class="card">
+  <h2>📱 Your Science Journey</h2>
+  <p>Keep exploring to build your science knowledge.</p>
+  <p>✨ Every correct quiz answer earns 10 points.</p>
+  <p>🌟 Reach 50 points to become a Science Star!</p>
+</section>
+
+</main>
+
+<footer>
+  <p>🧬 SciSpark AI</p>
+  <p>Made for curious minds. Keep discovering! 🚀</p>
+</footer>
+
+<script>
+let points = Number(localStorage.getItem("sciPoints")) || 0;
+
+function updatePoints() {
+  document.getElementById("points").textContent = points;
+
+  document.getElementById("level").textContent =
+    points >= 100 ? "🏆 Level: Science Legend" :
+    points >= 50 ? "🌟 Level: Science Star" :
+    points >= 20 ? "🔬 Level: Young Scientist" :
+    "🌱 Level: Science Explorer";
+
+  localStorage.setItem("sciPoints", points);
+}
+
+const questions = [
+  {
+    q: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Venus"],
+    correct: 1
+  },
+  {
+    q: "Which gas do plants absorb during photosynthesis?",
+    options: ["Oxygen", "Nitrogen", "Carbon dioxide"],
+    correct: 2
+  },
+  {
+    q: "Which organ pumps blood around the human body?",
+    options: ["Heart", "Lungs", "Brain"],
+    correct: 0
+  },
+  {
+    q: "What is the closest star to Earth?",
+    options: ["Sirius", "The Sun", "Polaris"],
+    correct: 1
+  },
+  {
+    q: "What force pulls objects toward Earth?",
+    options: ["Gravity", "Magnetism", "Friction"],
+    correct: 0
+  }
+];
+
+let current = 0;
+let answered = false;
+let correctAnswers = 0;
+
+function loadQuestion() {
+  answered = false;
+
+  const q = questions[current];
+
+  document.getElementById("questionNumber").textContent =
+    "Question " + (current + 1) + " of " + questions.length;
+
+  document.getElementById("quizQuestion").textContent = q.q;
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("score").textContent = "";
+  document.getElementById("nextButton").hidden = true;
+  document.getElementById("restartButton").hidden = true;
+
+  const options = document.getElementById("options");
+  options.replaceChildren();
+
+  q.options.forEach((option, index) => {
+    const button = document.createElement("button");
+
+    button.className = "quiz-option";
+    button.textContent = option;
+    button.onclick = () => checkAnswer(index);
+
+    options.appendChild(button);
+  });
+}
+
+function checkAnswer(index) {
+  if (answered) return;
+
+  answered = true;
+
+  const q = questions[current];
+  const feedback = document.getElementById("quizFeedback");
+
+  if (index === q.correct) {
+    feedback.textContent = "🎉 Correct! You earned 10 points!";
+    points += 10;
+    correctAnswers++;
+    updatePoints();
+  } else {
+    feedback.textContent =
+      "💡 Not quite! The correct answer is " +
+      q.options[q.correct] + ". Keep learning!";
+  }
+
+  document.querySelectorAll(".quiz-option").forEach(button => {
+    button.disabled = true;
+  });
+
+  if (current < questions.length - 1) {
+    document.getElementById("nextButton").hidden = false;
+  } else {
+    document.getElementById("score").textContent =
+      "🏆 You got " + correctAnswers + " out of " +
+      questions.length + " correct!";
+
+    document.getElementById("restartButton").hidden = false;
+  }
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) {
+    current++;
+    loadQuestion();
+  }
+}
+
+function restartQuiz() {
+  current = 0;
+  correctAnswers = 0;
+  loadQuestion();
+}
+
+function askScience() {
+  const q = document.getElementById("question").value.trim();
+  const answer = document.getElementById("answer");
+
+  answer.replaceChildren();
+
+  if (!q) {
+    answer.textContent = "Please enter a science topic first!";
+    return;
+  }
+
+  const title = document.createElement("h3");
+  title.textContent = "📚 Your Personalized Study Guide";
+
+  const prompt = document.createElement("p");
+  prompt.textContent =
+    "Explore the topic: " + q +
+    ". Learn its meaning, how it works, a real-world example, " +
+    "and three practice questions.";
+
+  const note = document.createElement("p");
+  note.textContent =
+    "This is a study prompt, not an AI-generated explanation yet.";
+
+  answer.append(title, prompt, note);
+}
+
+const facts = [
+  "🌌 Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.",
+  "🐙 Octopuses have three hearts.",
+  "🪐 Saturn is less dense than water on average.",
+  "⚡ Lightning can heat the surrounding air to extremely high temperatures.",
+  "🌱 Plants use sunlight to help turn water and carbon dioxide into sugars.",
+  "🌙 The Moon is Earth's natural satellite.",
+  "🧊 Ice floats because it is less dense than liquid water."
+];
+
+function showFact() {
+  const fact = facts[Math.floor(Math.random() * facts.length)];
+  document.getElementById("fact").textContent = fact;
+}
+
+updatePoints();
+loadQuestion();
+</script>
+
+</body>
+</html>
